@@ -8,6 +8,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const validate = () => {
@@ -25,6 +26,7 @@ export default function Register() {
       setError(validationError);
       return;
     }
+    setLoading(true);
     try {
       await axios.post("https://fishing-app-backend-d77r.onrender.com/users/register", {
         username,
@@ -34,6 +36,8 @@ export default function Register() {
       navigate("/login");
     } catch (err) {
       setError(err.response?.data?.detail || "Registration error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,6 +52,11 @@ export default function Register() {
         {error && (
           <div className="bg-red-500 bg-opacity-20 border border-red-500 text-red-400 px-4 py-3 rounded-lg mb-6">
             {error}
+          </div>
+        )}
+        {loading && (
+          <div className="bg-blue-500 bg-opacity-20 border border-blue-500 text-blue-400 px-4 py-3 rounded-lg mb-6 text-center">
+            🔄 Connecting to server, please wait...
           </div>
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -85,9 +94,10 @@ export default function Register() {
           />
           <button
             type="submit"
-            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-200"
+            disabled={loading}
+            className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition duration-200"
           >
-            Register
+            {loading ? "Connecting..." : "Register"}
           </button>
         </form>
         <p className="text-center text-gray-400 mt-6">

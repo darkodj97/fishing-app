@@ -7,12 +7,14 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("username", username);
@@ -22,6 +24,8 @@ export default function Login() {
       navigate("/dashboard");
     } catch (err) {
       setError("Invalid username or password");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -36,6 +40,11 @@ export default function Login() {
         {error && (
           <div className="bg-red-500 bg-opacity-20 border border-red-500 text-red-400 px-4 py-3 rounded-lg mb-6">
             {error}
+          </div>
+        )}
+        {loading && (
+          <div className="bg-blue-500 bg-opacity-20 border border-blue-500 text-blue-400 px-4 py-3 rounded-lg mb-6 text-center">
+            🔄 Connecting to server, please wait...
           </div>
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -57,9 +66,10 @@ export default function Login() {
           />
           <button
             type="submit"
-            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-200"
+            disabled={loading}
+            className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition duration-200"
           >
-            Login
+            {loading ? "Connecting..." : "Login"}
           </button>
         </form>
         <p className="text-center text-gray-400 mt-6">
