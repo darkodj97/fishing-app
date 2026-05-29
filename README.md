@@ -30,13 +30,17 @@ A full-stack fishing log application where users can track their catches, compet
 
 **Frontend:**
 - React
+- JavaScript
 - Tailwind CSS
 - Axios
 - React Router
 
 ## 🚀 Running Locally
 
+> **Note**: To run locally, update all API URLs in `frontend/src` files from the production Render URL to `http://localhost:8000`. Also update the database URL in `backend/database.py` to your local PostgreSQL instance.
+
 ### Backend
+
 ```bash
 cd backend
 python3 -m venv venv
@@ -46,6 +50,7 @@ uvicorn main:app --reload
 ```
 
 ### Frontend
+
 ```bash
 cd frontend
 npm install
