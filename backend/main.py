@@ -12,7 +12,7 @@ app = FastAPI(title="Fishing App API")
 # CORS - dozvoljava React frontendu da komunicira sa API-jem
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:3000", "https://fishing-app-virid.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
